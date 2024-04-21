@@ -57,7 +57,7 @@ That's it. You should be good to go.
 You can run `awssso` passing it the name of the profile you want credentials for.
 
 ```bash
-  $ awssso dev-env
+  $ awssso.py dev-env
 ```
 
 If you don't pass a profile name it will allow you to select from a list:
