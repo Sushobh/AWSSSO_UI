@@ -1,3 +1,5 @@
+import os
+import sys
 from typing import Any
 import uvicorn
 from fastapi import FastAPI
@@ -8,14 +10,21 @@ from fastapi.staticfiles import StaticFiles
 app = FastAPI()
 config = ConfigFile()
 
+root_path = ""
+if hasattr(sys, '_MEIPASS'):
+   root_path = os.path.join(sys._MEIPASS, "")
+
 app.add_middleware(
     CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"]
 )
-app.mount("/browser", StaticFiles(directory="browser"), name="")
+app.mount("/browser", StaticFiles(directory=root_path+'/browser'), name="")
 
 @app.get('/')
 def get_app_angular():
-    with open('browser/index.html', 'r') as file_index:
+    relative_path = ""
+    path = ""
+
+    with open(root_path+'browser/index.html', 'r') as file_index:
         html_content = file_index.read()
     return HTMLResponse(html_content, status_code=200)
 
